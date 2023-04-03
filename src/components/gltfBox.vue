@@ -16,7 +16,7 @@ onMounted(() => {
   const renderer = new WebGLRenderer({ alpha: true })
   renderer.setClearColor(0xFFFFFF, 1)
   renderer.setSize(500, 500)
-  const cylinderContainer = document.getElementById('cylinder-container')!
+  const cylinderContainer = document.getElementById('three-container')!
   cylinderContainer.appendChild(renderer.domElement)
 
   const light = new PointLight(0x873919, 1, 100)
@@ -45,7 +45,7 @@ onMounted(() => {
 
 <template>
   <div
-    id="cylinder-container"
+    id="three-container"
     border="~ 2"
     overflow="hidden"
     w-500px h-500px

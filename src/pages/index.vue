@@ -1,21 +1,19 @@
 <script setup lang="ts">
-import routes from 'virtual:generated-pages'
-
 const getChallenge = () => {
-  const challenges = routes.filter(route => route.path.startsWith('/day/'))
-  if (!challenges)
-    throw new Error('No challenge found for path')
+  const modules = import.meta.glob('/public/modules/*.glb')
 
-  const challengeList = challenges.map((item) => {
-    const [_, day, name] = (item.name as string).split('-')
+  const models = Object.keys(modules).map((item) => {
+    const path = item.split('/')[3]
+    const day = path.split('-')[0]
+    const name = path.split('-')[1].split('.')[0]
     return {
       day,
       name,
-      path: `${item.path}`,
+      path,
     }
   })
 
-  return challengeList
+  return models
 }
 </script>
 
@@ -34,13 +32,13 @@ const getChallenge = () => {
       :key="challenge.path"
       grid gap-x-4 gap-y-1 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
     >
-      <a
-        :href="challenge.path"
+      <p
         class="link"
-        link-block mr-4
-        text-lg
-        hover:c-gray-7 transition duration-200 ease-in-out
-        c-gray
+        link-block
+        mr-4 text-lg
+        hover:c-gray-7
+        transition duration-200 ease-in-out c-gray
+        @click="() => $router.push(`/${challenge.path}`)"
       >
         <span mr-2 opacity-50>
           {{ challenge.day }}
@@ -48,7 +46,7 @@ const getChallenge = () => {
         <b>
           {{ challenge.name }}
         </b>
-      </a>
+      </p>
     </div>
   </div>
 </template>
